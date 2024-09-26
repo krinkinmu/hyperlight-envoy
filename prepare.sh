@@ -17,3 +17,19 @@ az account get-access-token --query "join(' ', ['Bearer', accessToken])" --outpu
 pushd hyperlight
 cargo build
 popd
+
+pushd envoy
+bazel build -c dbg envoy --config=docker-clang
+popd
+
+pushd wasm
+docker build -t wasm-builder:latest -f Dockerfile .
+docker run -v $(pwd):/tmp/host wasm-builder /opt/wasi-sdk/bin/clang \
+	-O3 -z stack-size=4096 -nostdlib \
+	-Wl,--initial-memory=65536 \
+	-Wl,--export=__data_end \
+	-Wl,--export=__heap_base,--export=malloc,--export=free,--export=__wasm_call_ctors \
+	-Wl,--strip-all,--no-entry \
+	-Wl,--allow-undefined \
+	-o /tmp/host/filter.wasm /tmp/host/filter.c
+popd
