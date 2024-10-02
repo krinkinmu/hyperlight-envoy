@@ -16,10 +16,11 @@ az account get-access-token --query "join(' ', ['Bearer', accessToken])" --outpu
 
 pushd hyperlight
 cargo build
+cargo build --release
 popd
 
 pushd envoy
-bazel build -c dbg envoy --config=docker-clang
+bazel build -c opt envoy --config=docker-clang
 popd
 
 pushd wasm
@@ -31,5 +32,12 @@ docker run -v $(pwd):/tmp/host wasm-builder /opt/wasi-sdk/bin/clang \
 	-Wl,--export=__heap_base,--export=malloc,--export=free,--export=__wasm_call_ctors \
 	-Wl,--strip-all,--no-entry \
 	-Wl,--allow-undefined \
-	-o /tmp/host/filter.wasm /tmp/host/filter.c
+	-o /tmp/host/filter.wasm \
+    /tmp/host/filter.c
+docker run -v $(pwd):/tmp/host wasm-builder /wasm-micro-runtime/wamr-compiler/build/wamrc \
+    --disable-simd \
+    --target=x86_64 \
+    --target-abi=msvc \
+    -o /tmp/host/filter.aot \
+	/tmp/host/filter.wasm
 popd
