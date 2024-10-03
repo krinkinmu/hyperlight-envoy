@@ -1,0 +1,11 @@
+static_resources:
+  listeners:
+  - name: listener
+    address:
+      socket_address: { address: 0.0.0.0, port_value: 5678 }
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.echo
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.echo.v3.Echo
+

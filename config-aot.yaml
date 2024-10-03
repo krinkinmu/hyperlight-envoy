@@ -1,0 +1,12 @@
+static_resources:
+  listeners:
+  - name: listener
+    address:
+      socket_address: { address: 0.0.0.0, port_value: 5678 }
+    filter_chains:
+    - filters:
+      - name: envoy.filters.network.hyperlight
+        typed_config:
+          "@type": type.googleapis.com/envoy.extensions.filters.network.hyperlight.v1.Hyperlight
+          module_path: "../wasm/filter.aot"
+
