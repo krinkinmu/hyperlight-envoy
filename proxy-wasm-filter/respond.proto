@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package envoy.source.extensions.common.wasm;
+
+message RespondArguments {
+    bytes data = 1;
+};

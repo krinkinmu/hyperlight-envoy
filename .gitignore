@@ -5,3 +5,5 @@ Cargo.lock
 *.pdb
 *.wasm
 *.aot
+*.pb.cc
+*.pb.h

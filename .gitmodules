@@ -1,3 +1,6 @@
 [submodule "envoy"]
 	path = envoy
 	url = git@github.com:krinkinmu/envoy-hyperlight.git
+[submodule "proxy-wasm-cpp-sdk"]
+	path = proxy-wasm-cpp-sdk
+	url = git@github.com:krinkinmu/proxy-wasm-cpp-sdk.git

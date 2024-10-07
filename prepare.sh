@@ -41,3 +41,11 @@ docker run -v $(pwd):/tmp/host wasm-builder /wasm-micro-runtime/wamr-compiler/bu
     -o /tmp/host/filter.aot \
 	/tmp/host/filter.wasm
 popd
+
+pushd proxy-wasm-cpp-sdk
+docker build -t wasmsdk:v2 -f Dockerfile-sdk .
+popd
+
+pushd proxy-wasm-filter
+docker run -v $PWD:/work -w /work  wasmsdk:v2 /build_wasm.sh
+popd
