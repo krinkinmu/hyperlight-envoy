@@ -7,3 +7,5 @@ Cargo.lock
 *.aot
 *.pb.cc
 *.pb.h
+*.csv
+*.png
